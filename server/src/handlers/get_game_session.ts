@@ -1,18 +1,36 @@
+import { db } from '../db';
+import { gameSessionsTable } from '../db/schema';
 import { type GetGameSessionInput, type GameSession } from '../schema';
+import { eq } from 'drizzle-orm';
 
-export async function getGameSession(input: GetGameSessionInput): Promise<GameSession | null> {
-    // This is a placeholder declaration! Real code should be implemented here.
-    // The goal of this handler is to fetch a specific game session by ID,
-    // returning the current state of the player's progress.
-    return Promise.resolve({
-        id: input.session_id,
-        player_name: "Player 1", // Placeholder
-        current_level: 1,
-        current_score: 0,
-        lives_remaining: 3,
-        session_start: new Date(),
-        session_end: null,
-        is_active: true,
-        created_at: new Date()
-    } as GameSession);
-}
+export const getGameSession = async (input: GetGameSessionInput): Promise<GameSession | null> => {
+  try {
+    // Query the database for the specific game session
+    const results = await db.select()
+      .from(gameSessionsTable)
+      .where(eq(gameSessionsTable.id, input.session_id))
+      .execute();
+
+    // Return null if no session found
+    if (results.length === 0) {
+      return null;
+    }
+
+    // Return the first (and should be only) result
+    const session = results[0];
+    return {
+      id: session.id,
+      player_name: session.player_name,
+      current_level: session.current_level,
+      current_score: session.current_score,
+      lives_remaining: session.lives_remaining,
+      session_start: session.session_start,
+      session_end: session.session_end,
+      is_active: session.is_active,
+      created_at: session.created_at
+    };
+  } catch (error) {
+    console.error('Game session retrieval failed:', error);
+    throw error;
+  }
+};

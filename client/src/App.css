@@ -1,131 +1,197 @@
-:root {
-  --background: #fff;
-  --text: #000;
-  --text-secondary: #666;
-  --spinner-border: #000;
-  --spinner-border-top: transparent;
-  --dot-color: #000;
-  --grid-color: rgba(0,0,0,0.05);
-  --gradient-color: rgba(0,0,0,0.03);
-}
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap');
 
-@media (prefers-color-scheme: dark) {
-  :root {
-      --background: #000;
-      --text: #fff;
-      --text-secondary: #888;
-      --spinner-border: #fff;
-      --spinner-border-top: transparent;
-      --dot-color: #fff;
-      --grid-color: rgba(255,255,255,0.05);
-      --gradient-color: rgba(255,255,255,0.03);
-  }
-}
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--background);
-  color: var(--text);
-  padding: 20px;
-  line-height: 1.5;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-.container {
-  text-align: center;
-  max-width: 600px;
+
+/* Custom animations for child-friendly effects */
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0,0,0);
+  }
+  40%, 43% {
+    transform: translate3d(0,-30px,0);
+  }
+  70% {
+    transform: translate3d(0,-15px,0);
+  }
+  90% {
+    transform: translate3d(0,-4px,0);
+  }
 }
-h1.title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  letter-spacing: -0.02em;
+
+@keyframes wiggle {
+  0%, 7% {
+    transform: rotateZ(0);
+  }
+  15% {
+    transform: rotateZ(-15deg);
+  }
+  20% {
+    transform: rotateZ(10deg);
+  }
+  25% {
+    transform: rotateZ(-10deg);
+  }
+  30% {
+    transform: rotateZ(6deg);
+  }
+  35% {
+    transform: rotateZ(-4deg);
+  }
+  40%, 100% {
+    transform: rotateZ(0);
+  }
 }
-p.description {
-  font-size: 1.125rem;
-  color: var(--text-secondary);
-  margin-bottom: 2rem;
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
-.spinner {
+
+@keyframes rainbow {
+  0% { color: #ff0000; }
+  16% { color: #ff8000; }
+  33% { color: #ffff00; }
+  50% { color: #00ff00; }
+  66% { color: #0080ff; }
+  83% { color: #8000ff; }
+  100% { color: #ff0000; }
+}
+
+/* Child-friendly button animations */
+.animate-bounce {
+  animation: bounce 2s infinite;
+}
+
+.animate-wiggle {
+  animation: wiggle 2s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.text-rainbow {
+  animation: rainbow 3s linear infinite;
+}
+
+/* Enhanced hover effects for interactive elements */
+.hover-grow:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+.hover-bounce:hover {
+  animation: bounce 0.5s ease-in-out;
+}
+
+/* Custom scrollbar for child-friendly design */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(147, 51, 234, 0.6);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(147, 51, 234, 0.8);
+}
+
+/* Fun focus styles for accessibility */
+button:focus,
+input:focus,
+select:focus {
+  outline: 3px solid rgba(250, 204, 21, 0.8);
+  outline-offset: 2px;
+}
+
+/* Loading spinner enhancement */
+.spinner-fun {
   width: 40px;
   height: 40px;
-  margin: 2rem auto;
-  position: relative;
-}
-.spinner::before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border: 2px solid var(--spinner-border);
-  border-top-color: var(--spinner-border-top);
+  border: 4px solid rgba(147, 51, 234, 0.3);
+  border-top: 4px solid rgb(147, 51, 234);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
-.dots {
-  display: flex;
-  justify-content: center;
-  gap: 4px;
-  margin-top: 2rem;
-}
-.dot {
-  width: 4px;
-  height: 4px;
-  background: var(--dot-color);
-  border-radius: 50%;
-  animation: fade 1.4s infinite ease-in-out;
-}
-.dot:nth-child(1) { animation-delay: -0.32s; }
-.dot:nth-child(2) { animation-delay: -0.16s; }
+
 @keyframes spin {
-  to { transform: rotate(360deg); }
-}
-@keyframes fade {
-  0%, 80%, 100% { opacity: 0; }
-  40% { opacity: 1; }
-}
-.grid {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background-image: 
-      linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
-  background-size: 24px 24px;
-  transition: background-image 0.3s ease;
-}
-.gradient {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -2;
-  background: radial-gradient(circle at center, var(--gradient-color) 0%, transparent 50%);
-  transition: background 0.3s ease;
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-.footer {
-  position: fixed;
-  bottom: 20px;
+/* Special text effects */
+.text-glow {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.card-shadow-fun {
+  box-shadow: 0 10px 25px rgba(147, 51, 234, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Progress bar enhancement */
+.progress-rainbow {
+  background: linear-gradient(90deg, 
+    #ff0000 0%, 
+    #ff8000 16%, 
+    #ffff00 33%, 
+    #00ff00 50%, 
+    #0080ff 66%, 
+    #8000ff 83%, 
+    #ff0000 100%
+  );
+}
+
+/* Celebration confetti effect (for results) */
+.confetti::before {
+  content: '🎉';
+  position: absolute;
+  top: -10px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 0.9rem;
-  color: var(--text-secondary);
+  animation: bounce 2s infinite;
 }
 
-.footer-link {
-  color: var(--text);
-  text-decoration: none;
-  font-weight: bold;
+/* Mobile responsiveness improvements */
+@media (max-width: 768px) {
+  .text-6xl {
+    font-size: 3rem;
+  }
+  
+  .text-4xl {
+    font-size: 2rem;
+  }
+  
+  .text-3xl {
+    font-size: 1.5rem;
+  }
+  
+  .text-8xl {
+    font-size: 4rem;
+  }
 }
